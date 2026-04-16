@@ -1,0 +1,50 @@
+# ARO-HCP specific kagent values
+# Deploy with: make helm-install
+
+providers:
+  default: openAI
+  openAI:
+    provider: OpenAI
+    model: "qwen3-14b"
+    apiKey: ""
+    config:
+      baseUrl: "https://litellm-prod.apps.maas.redhatworkshops.io/v1"
+
+# Enable relevant agents for ARO-HCP clusters
+agents:
+  arohcp-agent:
+    enabled: true
+  k8s-agent:
+    enabled: true
+  promql-agent:
+    enabled: true
+  helm-agent:
+    enabled: true
+  observability-agent:
+    enabled: true
+  # Disable irrelevant agents
+  kgateway-agent:
+    enabled: false
+  istio-agent:
+    enabled: false
+  argo-rollouts-agent:
+    enabled: false
+  cilium-policy-agent:
+    enabled: false
+  cilium-manager-agent:
+    enabled: false
+  cilium-debug-agent:
+    enabled: false
+
+# Global: allow root since the UI image requires it
+podSecurityContext:
+  runAsNonRoot: false
+securityContext:
+  readOnlyRootFilesystem: false
+
+# Disable tools that need extra config we don't have
+tools:
+  grafana-mcp:
+    enabled: false
+  querydoc:
+    enabled: false
